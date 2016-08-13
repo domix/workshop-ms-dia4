@@ -1,13 +1,13 @@
 buildscript {
-	ext {
-		springBootVersion = '1.4.0.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+  ext {
+    springBootVersion = '1.4.0.RELEASE'
+  }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+  }
 }
 
 apply plugin: 'java'
@@ -16,39 +16,51 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 //Medir la cobertura del codigo en la ejecucion de las pruebas
 apply plugin: 'jacoco'
+
+//Plugins para analisis estatico de codigo
 apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
 
 jar {
-	baseName = 'dia4'
-	version = '0.0.1-SNAPSHOT'
+  baseName = 'dia4'
+  version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+  compile('org.springframework.boot:spring-boot-starter-web')
+  testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 
 eclipse {
-	classpath {
-		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7'
-	}
+  classpath {
+    containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+    containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7'
+  }
 }
 
 jacoco {
-	//usar una version mas reciente
-    toolVersion = "0.7.6.201602180812"
+  //usar una version mas reciente
+  toolVersion = "0.7.6.201602180812"
 }
 
 //esto le indica a Gradle que realice el reporte de cobertura en las pruebas
 check.dependsOn jacocoTestReport
+
+tasks.withType(FindBugs) {
+  reports {
+    xml.enabled true
+    html.enabled false
+  }
+}
+
+
 
 
