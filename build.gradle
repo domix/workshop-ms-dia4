@@ -16,6 +16,7 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 //Medir la cobertura del codigo en la ejecucion de las pruebas
 apply plugin: 'jacoco'
+apply plugin: 'checkstyle'
 
 jar {
 	baseName = 'dia4'
